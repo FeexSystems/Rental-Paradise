@@ -306,7 +306,8 @@ const Navigation = () => {
 
             <Button className="hidden sm:flex bg-primary hover:bg-primary/90">
               <Phone className="h-4 w-4 mr-2" />
-              Contact
+              <span className="hidden lg:inline">+1 (312) 217-4976</span>
+              <span className="lg:hidden">Contact</span>
             </Button>
 
             {/* Mobile Menu */}
