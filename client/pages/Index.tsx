@@ -16,6 +16,7 @@ import {
   Waves,
   Coffee,
 } from "lucide-react";
+import { ScrapedProperty, ScrapePropertiesResponse } from "@shared/api";
 
 interface Property {
   id: string;
