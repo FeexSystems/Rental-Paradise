@@ -193,11 +193,14 @@ const getPropertyData = (id: string): PropertyData => {
       guests: 2,
       bedrooms: 1,
       bathrooms: 1,
-      images: [
-        "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-        "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-        "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-      ],
+      images: getPropertyGallery(
+        {
+          id: "2",
+          type: "historic",
+          size: "large",
+        },
+        3,
+      ),
       location: "Historic District",
       address: "456 Southard Street, Key West, FL 33040",
       amenities: [
