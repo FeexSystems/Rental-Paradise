@@ -179,7 +179,7 @@ async function scrapeCozyCozy(): Promise<ScrapedProperty[]> {
 
       const image =
         $element.find("img").first().attr("src") ||
-        `https://images.unsplash.com/photo-${1570000000000 + index}?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80`;
+        `https://images.unsplash.com/photo-${1570000000000 + index * 131}?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80`;
 
       const location =
         $element.find('[class*="location"], .location').first().text().trim() ||
