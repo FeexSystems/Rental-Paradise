@@ -273,15 +273,34 @@ export default function NotFound() {
           </CardContent>
         </Card>
 
-        {/* Back to Home */}
-        <div className="text-center mt-12">
-          <Link to="/">
-            <Button size="lg" className="rounded-xl px-8">
-              <Home className="h-5 w-5 mr-2" />
-              Back to Home
-            </Button>
-          </Link>
-        </div>
+        {/* Navigation Helper */}
+        <Card className="max-w-2xl mx-auto mt-12 bg-ocean-50/50 backdrop-blur-sm border-0 shadow-lg">
+          <CardContent className="p-8 text-center">
+            <Compass className="h-12 w-12 text-primary mx-auto mb-4" />
+            <h3 className="text-xl font-bold mb-4">Lost in Paradise?</h3>
+            <p className="text-muted-foreground mb-6">
+              Don't worry! Key West has many hidden gems. Let us help you
+              navigate back to your perfect vacation rental.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link to="/">
+                <Button size="lg" className="rounded-xl px-8">
+                  <Home className="h-5 w-5 mr-2" />
+                  Back to Home
+                </Button>
+              </Link>
+              <Button
+                size="lg"
+                variant="outline"
+                className="rounded-xl px-8"
+                onClick={() => window.history.back()}
+              >
+                <ArrowRight className="h-5 w-5 mr-2 rotate-180" />
+                Go Back
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
