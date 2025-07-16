@@ -163,13 +163,32 @@ export default function Index() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-ocean-50 to-tropical-50">
       {/* Hero Section */}
-      <div className="relative overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: `linear-gradient(rgba(0, 180, 217, 0.1), rgba(0, 180, 217, 0.2)), url('https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80')`,
-          }}
-        />
+      <div className="relative overflow-hidden min-h-screen">
+        {/* Video Background */}
+        <div className="absolute inset-0">
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="w-full h-full object-cover"
+          >
+            <source
+              src="https://player.vimeo.com/external/397475655.sd.mp4?s=0f73990844fbf7d80b8b0fcaa9f7a05c88a22b67&profile_id=165&oauth2_token_id=57447761"
+              type="video/mp4"
+            />
+            {/* Fallback for browsers that don't support video */}
+            <div
+              className="w-full h-full bg-cover bg-center"
+              style={{
+                backgroundImage: `url('https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80')`,
+              }}
+            />
+          </video>
+          {/* Ocean-themed overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-ocean-600/30 via-transparent to-ocean-900/40" />
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-transparent to-ocean-500/20" />
+        </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
           <div className="text-center">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 tracking-tight">
