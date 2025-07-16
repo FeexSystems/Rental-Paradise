@@ -1,7 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
 import {
   Home,
   Search,
@@ -12,6 +14,10 @@ import {
   ArrowRight,
   Phone,
   Mail,
+  Clock,
+  Star,
+  Compass,
+  RefreshCw,
 } from "lucide-react";
 
 export default function NotFound() {
