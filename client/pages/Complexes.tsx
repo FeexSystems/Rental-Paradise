@@ -269,11 +269,11 @@ const apartmentComplexes: ApartmentComplex[] = [
 const getAmenityIcon = (amenity: string) => {
   const amenityLower = amenity.toLowerCase();
   if (amenityLower.includes("pool") || amenityLower.includes("spa"))
-    return <SwimmingPool className="h-4 w-4" />;
+    return <Waves className="h-4 w-4" />;
   if (amenityLower.includes("gym") || amenityLower.includes("fitness"))
     return <Dumbbell className="h-4 w-4" />;
   if (amenityLower.includes("parking") || amenityLower.includes("valet"))
-    return <ParkingCircle className="h-4 w-4" />;
+    return <Car className="h-4 w-4" />;
   if (amenityLower.includes("wifi") || amenityLower.includes("internet"))
     return <Wifi className="h-4 w-4" />;
   if (
