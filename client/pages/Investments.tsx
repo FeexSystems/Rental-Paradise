@@ -59,6 +59,9 @@ const investmentOpportunities = [
       "Professional management in place",
       "Recent renovations completed",
     ],
+    investmentType: "Full Ownership",
+    minimumInvestment: "$500K",
+    projectedReturns: "8-12% annually",
   },
   {
     id: "2",
@@ -79,6 +82,9 @@ const investmentOpportunities = [
       "Strong appreciation history",
       "Established guest base",
     ],
+    investmentType: "Fractional Ownership",
+    minimumInvestment: "$250K",
+    projectedReturns: "10-15% annually",
   },
   {
     id: "3",
@@ -99,6 +105,78 @@ const investmentOpportunities = [
       "Exclusive amenities",
       "High-end clientele",
     ],
+    investmentType: "Private REIT",
+    minimumInvestment: "$100K",
+    projectedReturns: "7-10% annually",
+  },
+  {
+    id: "4",
+    title: "Duval Street Commercial Portfolio",
+    type: "Commercial Real Estate",
+    units: 8,
+    price: "$6.2M",
+    roi: "14.5%",
+    capRate: "10.2%",
+    location: "Duval Street",
+    image:
+      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    description:
+      "Prime commercial properties on famous Duval Street with mixed-use potential.",
+    highlights: [
+      "High foot traffic area",
+      "Triple net lease tenants",
+      "Mixed-use zoning",
+      "Tourist destination",
+    ],
+    investmentType: "Commercial Fund",
+    minimumInvestment: "$150K",
+    projectedReturns: "12-16% annually",
+  },
+  {
+    id: "5",
+    title: "Smathers Beach Resort Development",
+    type: "New Development",
+    units: 65,
+    price: "$18.5M",
+    roi: "12.8%",
+    capRate: "8.9%",
+    location: "Smathers Beach",
+    image:
+      "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    description:
+      "Brand new beachfront resort development with modern amenities and prime beach access.",
+    highlights: [
+      "New construction",
+      "Direct beach access",
+      "Modern amenities",
+      "Pre-construction pricing",
+    ],
+    investmentType: "Development Fund",
+    minimumInvestment: "$200K",
+    projectedReturns: "15-20% upon completion",
+  },
+  {
+    id: "6",
+    title: "Key West Affordable Housing Initiative",
+    type: "Community Development",
+    units: 24,
+    price: "$4.8M",
+    roi: "9.5%",
+    capRate: "7.2%",
+    location: "Stock Island",
+    image:
+      "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    description:
+      "Community-focused affordable housing project with government incentives and stable returns.",
+    highlights: [
+      "Government backing",
+      "Tax incentives",
+      "Community impact",
+      "Stable long-term returns",
+    ],
+    investmentType: "Impact Investment",
+    minimumInvestment: "$75K",
+    projectedReturns: "8-12% annually + tax benefits",
   },
 ];
 
