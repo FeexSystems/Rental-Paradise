@@ -18,19 +18,7 @@ import {
 } from "lucide-react";
 import { ScrapedProperty, ScrapePropertiesResponse } from "@shared/api";
 
-interface Property {
-  id: string;
-  title: string;
-  price: number;
-  rating: number;
-  reviews: number;
-  guests: number;
-  bedrooms: number;
-  bathrooms: number;
-  image: string;
-  location: string;
-  amenities: string[];
-  host: string;
+interface Property extends ScrapedProperty {
   isWishlisted?: boolean;
 }
 
