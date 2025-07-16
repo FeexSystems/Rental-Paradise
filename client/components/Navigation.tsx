@@ -342,7 +342,7 @@ const Navigation = () => {
                   <div className="space-y-4">
                     <Button className="w-full">
                       <Phone className="h-4 w-4 mr-2" />
-                      Contact Us
+                      +1 (312) 217-4976
                     </Button>
                     <div className="flex space-x-2">
                       <Button variant="outline" size="sm" className="flex-1">
