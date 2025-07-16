@@ -133,7 +133,50 @@ const getAmenityIcon = (amenity: string) => {
 
 export default function Index() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredProperties, setFilteredProperties] = useState(mockProperties);
+  const [filteredProperties, setFilteredProperties] =
+    useState<Property[]>(mockProperties);
+  const [scrapedProperties, setScrapedProperties] = useState<Property[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [useRealTimeData, setUseRealTimeData] = useState(false);
+
+  // Load scraped properties on component mount
+  useEffect(() => {
+    loadScrapedProperties();
+  }, []);
+
+  const loadScrapedProperties = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch("/api/scrape-properties");
+      const data: ScrapePropertiesResponse = await response.json();
+
+      if (data.success && data.properties.length > 0) {
+        const properties: Property[] = data.properties.map((prop) => ({
+          ...prop,
+          rating: prop.rating || 4.5,
+          reviews: prop.reviews || 50,
+          guests: prop.guests || 2,
+          bedrooms: prop.bedrooms || 1,
+          bathrooms: prop.bathrooms || 1,
+          host: prop.host || "Host",
+          isWishlisted: false,
+        }));
+        setScrapedProperties(properties);
+        setUseRealTimeData(true);
+        setFilteredProperties(properties);
+      }
+    } catch (error) {
+      console.error("Failed to load scraped properties:", error);
+      // Fallback to mock data
+      setFilteredProperties(mockProperties);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const currentProperties = useRealTimeData
+    ? scrapedProperties
+    : mockProperties;
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
