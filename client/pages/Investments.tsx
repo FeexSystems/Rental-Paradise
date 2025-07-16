@@ -503,9 +503,9 @@ export default function Investments() {
                         {opportunity.description}
                       </p>
 
-                      <div className="grid grid-cols-2 gap-4 mb-4">
+                      <div className="grid grid-cols-2 gap-3 mb-4 text-sm">
                         <div>
-                          <div className="text-sm text-muted-foreground">
+                          <div className="text-xs text-muted-foreground">
                             Units
                           </div>
                           <div className="font-semibold">
@@ -513,15 +513,15 @@ export default function Investments() {
                           </div>
                         </div>
                         <div>
-                          <div className="text-sm text-muted-foreground">
-                            Price
+                          <div className="text-xs text-muted-foreground">
+                            Total Price
                           </div>
                           <div className="font-semibold text-primary">
                             {opportunity.price}
                           </div>
                         </div>
                         <div>
-                          <div className="text-sm text-muted-foreground">
+                          <div className="text-xs text-muted-foreground">
                             Cap Rate
                           </div>
                           <div className="font-semibold">
@@ -529,12 +529,37 @@ export default function Investments() {
                           </div>
                         </div>
                         <div>
-                          <div className="text-sm text-muted-foreground">
+                          <div className="text-xs text-muted-foreground">
                             Location
                           </div>
-                          <div className="font-semibold text-sm">
+                          <div className="font-semibold text-xs">
                             {opportunity.location}
                           </div>
+                        </div>
+                        <div>
+                          <div className="text-xs text-muted-foreground">
+                            Min Investment
+                          </div>
+                          <div className="font-semibold text-green-600">
+                            {opportunity.minimumInvestment}
+                          </div>
+                        </div>
+                        <div>
+                          <div className="text-xs text-muted-foreground">
+                            Investment Type
+                          </div>
+                          <div className="font-semibold text-xs">
+                            {opportunity.investmentType}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="mb-4">
+                        <div className="text-xs text-muted-foreground mb-1">
+                          Projected Returns
+                        </div>
+                        <div className="font-semibold text-sm text-primary">
+                          {opportunity.projectedReturns}
                         </div>
                       </div>
 
