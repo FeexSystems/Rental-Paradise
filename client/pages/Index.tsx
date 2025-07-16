@@ -173,6 +173,7 @@ export default function Index() {
           bedrooms: prop.bedrooms || 1,
           bathrooms: prop.bathrooms || 1,
           host: prop.host || "Host",
+          image: getImageFromPropertyData(prop, "medium"), // Use unique image service
           isWishlisted: false,
         }));
         setScrapedProperties(properties);
