@@ -132,6 +132,7 @@ const getAmenityIcon = (amenity: string) => {
 };
 
 export default function Index() {
+  const [searchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredProperties, setFilteredProperties] =
     useState<Property[]>(mockProperties);
@@ -143,6 +144,19 @@ export default function Index() {
   useEffect(() => {
     loadScrapedProperties();
   }, []);
+
+  // Handle URL parameters for search and category
+  useEffect(() => {
+    const search = searchParams.get("search");
+    const category = searchParams.get("category");
+
+    if (search) {
+      setSearchQuery(search);
+      handleSearch(search);
+    } else if (category) {
+      handleCategoryFilter(category);
+    }
+  }, [searchParams, useRealTimeData]);
 
   const loadScrapedProperties = async () => {
     setIsLoading(true);
