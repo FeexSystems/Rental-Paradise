@@ -12,6 +12,7 @@ import PropertyDetails from "./pages/PropertyDetails";
 import Complexes from "./pages/Complexes";
 import Agents from "./pages/Agents";
 import Investments from "./pages/Investments";
+import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
