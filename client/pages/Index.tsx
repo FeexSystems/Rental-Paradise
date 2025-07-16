@@ -17,6 +17,7 @@ import {
   Coffee,
 } from "lucide-react";
 import { ScrapedProperty, ScrapePropertiesResponse } from "@shared/api";
+import { getImageFromPropertyData } from "@/lib/imageService";
 
 interface Property extends ScrapedProperty {
   isWishlisted?: boolean;
