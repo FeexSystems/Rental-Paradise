@@ -249,32 +249,82 @@ export default function Index() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-ocean-50 to-tropical-50">
-      {/* Hero Section */}
+      {/* Hero Section with 3D Video Effect */}
       <div className="relative overflow-hidden min-h-screen">
-        {/* Video Background */}
+        {/* Multiple Video Layers for 3D Effect */}
         <div className="absolute inset-0">
+          {/* Background Video Layer */}
           <video
             autoPlay
             muted
             loop
             playsInline
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover scale-110 animate-pulse"
+            style={{ animationDuration: "8s" }}
           >
             <source
-              src="https://player.vimeo.com/external/397475655.sd.mp4?s=0f73990844fbf7d80b8b0fcaa9f7a05c88a22b67&profile_id=165&oauth2_token_id=57447761"
+              src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
               type="video/mp4"
             />
-            {/* Fallback for browsers that don't support video */}
+            {/* Underwater/Ocean Video Fallback */}
+            <source
+              src="https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4"
+              type="video/mp4"
+            />
+            {/* Static Fallback */}
             <div
-              className="w-full h-full bg-cover bg-center"
+              className="w-full h-full bg-cover bg-center animate-bounce"
               style={{
                 backgroundImage: `url('https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80')`,
+                animationDuration: "6s",
               }}
             />
           </video>
-          {/* Ocean-themed overlay */}
-          <div className="absolute inset-0 bg-gradient-to-b from-ocean-600/30 via-transparent to-ocean-900/40" />
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-transparent to-ocean-500/20" />
+
+          {/* Foreground Video Layer for Depth */}
+          <div className="absolute inset-0 opacity-60">
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="w-full h-full object-cover scale-125 animate-pulse"
+              style={{ animationDuration: "12s", animationDelay: "2s" }}
+            >
+              <source
+                src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
+                type="video/mp4"
+              />
+            </video>
+          </div>
+
+          {/* 3D Particle Effect Overlay */}
+          <div className="absolute inset-0">
+            <div
+              className="w-full h-full bg-gradient-to-b from-transparent via-ocean-500/10 to-transparent animate-pulse"
+              style={{ animationDuration: "4s" }}
+            />
+            {/* Floating bubbles effect */}
+            <div className="absolute inset-0 overflow-hidden">
+              {[...Array(20)].map((_, i) => (
+                <div
+                  key={i}
+                  className="absolute w-2 h-2 bg-white/20 rounded-full animate-bounce"
+                  style={{
+                    left: `${Math.random() * 100}%`,
+                    top: `${Math.random() * 100}%`,
+                    animationDuration: `${3 + Math.random() * 4}s`,
+                    animationDelay: `${Math.random() * 3}s`,
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Enhanced Ocean-themed overlays with 3D depth */}
+          <div className="absolute inset-0 bg-gradient-to-b from-ocean-600/20 via-transparent to-ocean-900/60" />
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/30 via-transparent to-ocean-500/30" />
+          <div className="absolute inset-0 bg-gradient-to-t from-tropical-600/20 via-transparent to-transparent" />
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
           <div className="text-center">
