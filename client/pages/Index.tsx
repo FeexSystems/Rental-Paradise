@@ -200,10 +200,51 @@ export default function Index() {
       const filtered = currentProperties.filter(
         (property) =>
           property.title.toLowerCase().includes(query.toLowerCase()) ||
-          property.location.toLowerCase().includes(query.toLowerCase()),
+          property.location.toLowerCase().includes(query.toLowerCase()) ||
+          property.amenities.some((amenity) =>
+            amenity.toLowerCase().includes(query.toLowerCase()),
+          ),
       );
       setFilteredProperties(filtered);
     }
+  };
+
+  const handleCategoryFilter = (category: string) => {
+    let filtered = currentProperties;
+
+    switch (category.toLowerCase()) {
+      case "luxury":
+        filtered = currentProperties.filter(
+          (property) =>
+            property.price > 400 ||
+            property.title.toLowerCase().includes("luxury") ||
+            property.title.toLowerCase().includes("penthouse") ||
+            property.amenities.some(
+              (amenity) =>
+                amenity.toLowerCase().includes("luxury") ||
+                amenity.toLowerCase().includes("premium"),
+            ),
+        );
+        break;
+      case "waterfront":
+        filtered = currentProperties.filter(
+          (property) =>
+            property.title.toLowerCase().includes("ocean") ||
+            property.title.toLowerCase().includes("waterfront") ||
+            property.title.toLowerCase().includes("beach") ||
+            property.amenities.some(
+              (amenity) =>
+                amenity.toLowerCase().includes("ocean") ||
+                amenity.toLowerCase().includes("waterfront") ||
+                amenity.toLowerCase().includes("beach"),
+            ),
+        );
+        break;
+      default:
+        filtered = currentProperties;
+    }
+
+    setFilteredProperties(filtered);
   };
 
   return (
