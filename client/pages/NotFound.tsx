@@ -117,16 +117,101 @@ export default function NotFound() {
             worry - let's get you back to paradise!
           </p>
 
-          {/* Quick Search */}
-          <Card className="max-w-md mx-auto mb-12 bg-white/90 backdrop-blur-sm border-0 shadow-xl">
+          {/* Enhanced Search */}
+          <Card className="max-w-lg mx-auto mb-12 bg-white/90 backdrop-blur-sm border-0 shadow-xl">
             <CardContent className="p-6">
-              <h3 className="text-lg font-semibold mb-4">Quick Search</h3>
-              <div className="flex space-x-2">
-                <div className="flex-1 relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <Input placeholder="Search properties..." className="pl-10" />
+              <h3 className="text-lg font-semibold mb-4 flex items-center">
+                <Search className="h-5 w-5 mr-2 text-primary" />
+                Find Your Perfect Rental
+              </h3>
+              <form onSubmit={handleSearch} className="space-y-4">
+                <div className="flex space-x-2">
+                  <div className="flex-1 relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      placeholder="Search by location, property name..."
+                      className="pl-10"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                  </div>
+                  <Button type="submit" disabled={isSearching}>
+                    {isSearching ? (
+                      <RefreshCw className="h-4 w-4 animate-spin" />
+                    ) : (
+                      "Search"
+                    )}
+                  </Button>
                 </div>
-                <Button>Search</Button>
+                <div className="flex flex-wrap gap-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setSearchQuery("Old Town")}
+                  >
+                    Old Town
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setSearchQuery("Ocean View")}
+                  >
+                    Ocean View
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setSearchQuery("Historic")}
+                  >
+                    Historic
+                  </Button>
+                </div>
+              </form>
+            </CardContent>
+          </Card>
+
+          {/* Recent Properties */}
+          <Card className="max-w-4xl mx-auto mb-12 bg-white/90 backdrop-blur-sm border-0 shadow-xl">
+            <CardContent className="p-6">
+              <h3 className="text-lg font-semibold mb-4 flex items-center">
+                <Clock className="h-5 w-5 mr-2 text-primary" />
+                Recently Viewed Properties
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {recentProperties.map((property) => (
+                  <Link key={property.id} to={`/property/${property.id}`}>
+                    <Card className="group overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer">
+                      <div className="aspect-[4/3] relative overflow-hidden">
+                        <img
+                          src={property.image}
+                          alt={property.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                        <div className="absolute top-2 right-2">
+                          <Badge className="bg-white/90 text-foreground border-0">
+                            <Star className="h-3 w-3 fill-yellow-400 text-yellow-400 mr-1" />
+                            {property.rating}
+                          </Badge>
+                        </div>
+                      </div>
+                      <CardContent className="p-4">
+                        <h4 className="font-semibold text-sm group-hover:text-primary transition-colors">
+                          {property.title}
+                        </h4>
+                        <p className="text-xs text-muted-foreground flex items-center mt-1">
+                          <MapPin className="h-3 w-3 mr-1" />
+                          {property.location}
+                        </p>
+                        <p className="text-sm font-semibold text-primary mt-2">
+                          {property.price}
+                        </p>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                ))}
               </div>
             </CardContent>
           </Card>
