@@ -21,6 +21,51 @@ import {
 } from "lucide-react";
 
 export default function NotFound() {
+  const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isSearching, setIsSearching] = useState(false);
+
+  const handleSearch = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!searchQuery.trim()) return;
+
+    setIsSearching(true);
+    // Simulate search delay
+    setTimeout(() => {
+      navigate(`/?search=${encodeURIComponent(searchQuery)}`);
+    }, 500);
+  };
+
+  const recentProperties = [
+    {
+      id: "1",
+      title: "Ocean View Condo",
+      price: "$285/night",
+      rating: 4.9,
+      image:
+        "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+      location: "Old Town",
+    },
+    {
+      id: "2",
+      title: "Historic Cottage",
+      price: "$195/night",
+      rating: 4.8,
+      image:
+        "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+      location: "Historic District",
+    },
+    {
+      id: "3",
+      title: "Tropical Paradise Villa",
+      price: "$425/night",
+      rating: 5.0,
+      image:
+        "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+      location: "Sunrise Shores",
+    },
+  ];
+
   const popularLinks = [
     {
       icon: Home,
