@@ -95,13 +95,14 @@ const getPropertyData = (id: string): PropertyData => {
       guests: 4,
       bedrooms: 2,
       bathrooms: 2,
-      images: [
-        "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-        "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-        "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-        "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-        "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-      ],
+      images: getPropertyGallery(
+        {
+          id: "1",
+          type: "ocean",
+          size: "large",
+        },
+        5,
+      ),
       location: "Old Town Key West",
       address: "123 Ocean Drive, Key West, FL 33040",
       amenities: [
