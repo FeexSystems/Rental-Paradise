@@ -181,9 +181,9 @@ export default function Index() {
   const handleSearch = (query: string) => {
     setSearchQuery(query);
     if (!query.trim()) {
-      setFilteredProperties(mockProperties);
+      setFilteredProperties(currentProperties);
     } else {
-      const filtered = mockProperties.filter(
+      const filtered = currentProperties.filter(
         (property) =>
           property.title.toLowerCase().includes(query.toLowerCase()) ||
           property.location.toLowerCase().includes(query.toLowerCase()),
