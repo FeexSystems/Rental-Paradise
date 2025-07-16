@@ -13,6 +13,8 @@ import Complexes from "./pages/Complexes";
 import Agents from "./pages/Agents";
 import Investments from "./pages/Investments";
 import Login from "./pages/Login";
+import Luxury from "./pages/Luxury";
+import Waterfront from "./pages/Waterfront";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
