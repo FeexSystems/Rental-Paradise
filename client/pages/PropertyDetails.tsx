@@ -36,6 +36,10 @@ import {
   Home,
   DollarSign,
 } from "lucide-react";
+import {
+  getPropertyGallery,
+  getImageFromPropertyData,
+} from "@/lib/imageService";
 
 interface PropertyData {
   id: string;
