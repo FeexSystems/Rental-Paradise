@@ -232,83 +232,83 @@ export default function Index() {
           </p>
         </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredProperties.map((property) => (
             <Link key={property.id} to={`/property/${property.id}`}>
               <Card className="group overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-300 bg-white/80 backdrop-blur-sm hover:bg-white/90 cursor-pointer">
-
-              <div className="relative overflow-hidden">
-                <img
-                  src={property.image}
-                  alt={property.title}
-                  className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute top-4 right-4">
-                  <Badge className="bg-white/90 text-foreground border-0 shadow-md">
-                    <Star className="h-3 w-3 fill-yellow-400 text-yellow-400 mr-1" />
-                    {property.rating}
-                  </Badge>
-                </div>
-                <div className="absolute bottom-4 left-4">
-                  <Badge
-                    variant="secondary"
-                    className="bg-primary/90 text-white border-0"
-                  >
-                    ${property.price}/night
-                  </Badge>
-                </div>
-              </div>
-
-              <CardContent className="p-6">
-                <div className="flex items-center text-sm text-muted-foreground mb-2">
-                  <MapPin className="h-4 w-4 mr-1" />
-                  {property.location}
-                </div>
-
-                <h3 className="text-xl font-semibold text-foreground mb-3 group-hover:text-primary transition-colors">
-                  {property.title}
-                </h3>
-
-                <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
-                  <div className="flex items-center">
-                    <Users className="h-4 w-4 mr-1" />
-                    {property.guests} guests
+                <div className="relative overflow-hidden">
+                  <img
+                    src={property.image}
+                    alt={property.title}
+                    className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute top-4 right-4">
+                    <Badge className="bg-white/90 text-foreground border-0 shadow-md">
+                      <Star className="h-3 w-3 fill-yellow-400 text-yellow-400 mr-1" />
+                      {property.rating}
+                    </Badge>
                   </div>
-                  <div className="flex items-center">
-                    <Bed className="h-4 w-4 mr-1" />
-                    {property.bedrooms} bed
-                  </div>
-                  <div className="flex items-center">
-                    <Bath className="h-4 w-4 mr-1" />
-                    {property.bathrooms} bath
-                  </div>
-                </div>
-
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {property.amenities.slice(0, 3).map((amenity, index) => (
+                  <div className="absolute bottom-4 left-4">
                     <Badge
-                      key={index}
-                      variant="outline"
-                      className="text-xs border-primary/20 text-primary bg-primary/5"
+                      variant="secondary"
+                      className="bg-primary/90 text-white border-0"
                     >
-                      {getAmenityIcon(amenity)}
-                      <span className="ml-1">{amenity}</span>
+                      ${property.price}/night
                     </Badge>
-                  ))}
-                  {property.amenities.length > 3 && (
-                    <Badge variant="outline" className="text-xs">
-                      +{property.amenities.length - 3} more
-                    </Badge>
-                  )}
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <div className="text-sm text-muted-foreground">
-                    Hosted by {property.host} • {property.reviews} reviews
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+
+                <CardContent className="p-6">
+                  <div className="flex items-center text-sm text-muted-foreground mb-2">
+                    <MapPin className="h-4 w-4 mr-1" />
+                    {property.location}
+                  </div>
+
+                  <h3 className="text-xl font-semibold text-foreground mb-3 group-hover:text-primary transition-colors">
+                    {property.title}
+                  </h3>
+
+                  <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
+                    <div className="flex items-center">
+                      <Users className="h-4 w-4 mr-1" />
+                      {property.guests} guests
+                    </div>
+                    <div className="flex items-center">
+                      <Bed className="h-4 w-4 mr-1" />
+                      {property.bedrooms} bed
+                    </div>
+                    <div className="flex items-center">
+                      <Bath className="h-4 w-4 mr-1" />
+                      {property.bathrooms} bath
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {property.amenities.slice(0, 3).map((amenity, index) => (
+                      <Badge
+                        key={index}
+                        variant="outline"
+                        className="text-xs border-primary/20 text-primary bg-primary/5"
+                      >
+                        {getAmenityIcon(amenity)}
+                        <span className="ml-1">{amenity}</span>
+                      </Badge>
+                    ))}
+                    {property.amenities.length > 3 && (
+                      <Badge variant="outline" className="text-xs">
+                        +{property.amenities.length - 3} more
+                      </Badge>
+                    )}
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <div className="text-sm text-muted-foreground">
+                      Hosted by {property.host} • {property.reviews} reviews
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
           ))}
         </div>
 
