@@ -73,7 +73,7 @@ async function scrapeLastKeyRealty(): Promise<ScrapedProperty[]> {
       // Extract image
       const image =
         $element.find("img").first().attr("src") ||
-        `https://images.unsplash.com/photo-${1560000000000 + index}?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80`;
+        `https://images.unsplash.com/photo-${1560000000000 + index * 117}?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80`;
 
       // Extract location
       const location =
