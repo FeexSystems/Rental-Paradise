@@ -32,8 +32,6 @@ import {
   Shield,
   Coffee,
   Dumbbell,
-  SwimmingPool,
-  ParkingCircle,
 } from "lucide-react";
 
 interface ApartmentComplex {
