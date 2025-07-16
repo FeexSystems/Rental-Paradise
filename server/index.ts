@@ -17,6 +17,7 @@ export function createServer() {
   });
 
   app.get("/api/demo", handleDemo);
+  app.get("/api/scrape-properties", scrapeProperties);
 
   return app;
 }
