@@ -44,28 +44,39 @@ interface Agent {
 const agents: Agent[] = [
   {
     id: "1",
-    name: "Sarah Martinez",
+    name: "Jonny E Jesse",
     type: "manager",
     title: "Senior Property Manager",
     company: "Key West Property Solutions",
-    rating: 4.9,
-    reviews: 156,
+    rating: 4.95,
+    reviews: 287,
     image:
-      "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+      "https://cdn.builder.io/api/v1/image/assets%2Fb8336e2f6f8b45b2b66b34414a336021%2F4d326a7be5dd4660a0d52de1f83fc1d9?format=webp&width=800",
     location: "Old Town Key West",
-    specialties: ["Luxury Properties", "Vacation Rentals", "HOA Management"],
-    experience: "8+ years",
+    specialties: [
+      "Luxury Properties",
+      "Vacation Rentals",
+      "Investment Management",
+      "Client Relations",
+    ],
+    experience: "12+ years",
     contact: {
-      phone: "(305) 555-0123",
-      email: "sarah@kwpropertysolutions.com",
+      phone: "+13122174976",
+      email: "jonny@keywestrentals.com",
     },
     description:
-      "Specializing in high-end vacation rental management with a focus on maximizing revenue and guest satisfaction.",
-    certifications: ["CPM", "RMP", "Florida Real Estate License"],
+      "Premier property management specialist with over a decade of experience in Key West's luxury vacation rental market. Expertise in revenue optimization, guest satisfaction, and investment property management.",
+    certifications: [
+      "CPM",
+      "RMP",
+      "Florida Real Estate License",
+      "NARPM Certified",
+    ],
     recentProjects: [
-      "Ocean Breeze Complex",
-      "Mallory Square Condos",
-      "Sunset Key Villas",
+      "Ocean Breeze Luxury Complex",
+      "Historic Old Town Properties",
+      "Marina Bay Towers",
+      "Sunset Key Resort Management",
     ],
   },
   {
