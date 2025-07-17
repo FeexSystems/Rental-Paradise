@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import { handleDemo } from "./routes/demo";
 import { scrapeProperties } from "./routes/scrape-properties";
+import { scrapeImages } from "./routes/scrape-images";
 
 export function createServer() {
   const app = express();
@@ -18,6 +19,7 @@ export function createServer() {
 
   app.get("/api/demo", handleDemo);
   app.get("/api/scrape-properties", scrapeProperties);
+  app.get("/api/scrape-images", scrapeImages);
 
   return app;
 }

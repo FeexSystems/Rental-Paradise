@@ -503,16 +503,13 @@ export default function PropertyDetails() {
                 <CardTitle>Where you'll be</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="mb-4">
-                  <p className="font-medium">{property.address}</p>
-                  <p className="text-muted-foreground">{property.location}</p>
-                </div>
-                <div className="space-y-3">
-                  <h4 className="font-medium">Nearby Attractions</h4>
-                  {property.nearbyAttractions.map((attraction, index) => (
-                    <div
-                      key={index}
-                      className="flex justify-between items-center"
+                        <Input
+                          type="date"
+                          id="checkin"
+                          value={checkIn ? checkIn.toISOString().split('T')[0] : ''}
+                          onChange={(e) => setCheckIn(e.target.value ? new Date(e.target.value) : undefined)}
+                          className="w-full"
+                        />
                     >
                       <div>
                         <span className="font-medium">{attraction.name}</span>
