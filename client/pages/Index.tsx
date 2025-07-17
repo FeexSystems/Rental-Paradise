@@ -148,10 +148,11 @@ export default function Index() {
   const [isLoading, setIsLoading] = useState(false);
   const [useRealTimeData, setUseRealTimeData] = useState(false);
 
-  // Load scraped properties on component mount
-  useEffect(() => {
-    loadScrapedProperties();
-  }, []);
+  // Optionally load scraped properties on component mount
+  // Comment out to prevent initial API errors
+  // useEffect(() => {
+  //   loadScrapedProperties();
+  // }, []);
 
   // Handle URL parameters for search and category
   useEffect(() => {
@@ -609,7 +610,7 @@ export default function Index() {
         {/* ROI Calculator Section */}
         <div className="bg-gradient-to-r from-primary to-ocean-600 rounded-3xl p-8 md:p-12 text-center text-white mb-16">
           <h3 className="text-3xl md:text-4xl font-bold mb-4">
-            �� Calculate Your Investment ROI
+            📊 Calculate Your Investment ROI
           </h3>
           <p className="text-xl mb-6 opacity-90 max-w-2xl mx-auto">
             Understanding ROI is essential to evaluate the profitability of your
