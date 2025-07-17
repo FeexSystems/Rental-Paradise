@@ -356,6 +356,20 @@ export default function Index() {
               </div>
             </div>
 
+            {/* Real-time Data Toggle */}
+            {!useRealTimeData && (
+              <div className="mb-6">
+                <Button
+                  onClick={loadScrapedProperties}
+                  disabled={isLoading}
+                  variant="outline"
+                  className="bg-white/20 hover:bg-white/30 backdrop-blur-sm border border-white/30 text-white"
+                >
+                  {isLoading ? "Loading..." : "Load Real-Time Properties"}
+                </Button>
+              </div>
+            )}
+
             {/* Investment Stats */}
             <div className="flex flex-wrap justify-center gap-8 text-center">
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl px-6 py-4 border border-white/20">
