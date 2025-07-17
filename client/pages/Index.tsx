@@ -169,7 +169,17 @@ export default function Index() {
   const loadScrapedProperties = async () => {
     setIsLoading(true);
     try {
+      // First try a simple ping to check if the API is working
+      const pingResponse = await fetch("/api/ping");
+      if (!pingResponse.ok) {
+        throw new Error("API server not responding");
+      }
+
       const response = await fetch("/api/scrape-properties");
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
       const data: ScrapePropertiesResponse = await response.json();
 
       if (data.success && data.properties.length > 0) {
@@ -187,10 +197,19 @@ export default function Index() {
         setScrapedProperties(properties);
         setUseRealTimeData(true);
         setFilteredProperties(properties);
+        console.log(
+          "Successfully loaded scraped properties:",
+          properties.length,
+        );
+      } else {
+        console.log("No scraped properties found, using mock data");
+        setFilteredProperties(mockProperties);
       }
     } catch (error) {
       console.error("Failed to load scraped properties:", error);
+      console.log("Using mock properties as fallback");
       setFilteredProperties(mockProperties);
+      setUseRealTimeData(false);
     } finally {
       setIsLoading(false);
     }
@@ -305,10 +324,13 @@ export default function Index() {
           <div className="text-center">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 tracking-tight drop-shadow-lg">
               Discover
-              <span className="text-coral-400 block mt-2">Key West Real Estate</span>
+              <span className="text-coral-400 block mt-2">
+                Key West Real Estate
+              </span>
             </h1>
             <p className="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto leading-relaxed drop-shadow-md">
-              Premium investment opportunities in paradise. Luxury rentals, waterfront properties, and exceptional ROI potential.
+              Premium investment opportunities in paradise. Luxury rentals,
+              waterfront properties, and exceptional ROI potential.
             </p>
 
             {/* Enhanced Search Bar */}
@@ -372,7 +394,8 @@ export default function Index() {
             Key Real Estate Investment Strategies & Their ROI Potential
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Discover proven investment strategies with exceptional ROI potential in Key West's thriving real estate market
+            Discover proven investment strategies with exceptional ROI potential
+            in Key West's thriving real estate market
           </p>
         </div>
 
@@ -382,7 +405,9 @@ export default function Index() {
             <CardContent className="p-6">
               <div className="flex items-center mb-4">
                 <Building2 className="h-8 w-8 text-primary mr-3" />
-                <h3 className="text-xl font-bold">Rental Properties (Long-Term Hold)</h3>
+                <h3 className="text-xl font-bold">
+                  Rental Properties (Long-Term Hold)
+                </h3>
               </div>
               <div className="mb-4">
                 <Badge className="bg-green-100 text-green-800 border-green-200">
@@ -390,7 +415,8 @@ export default function Index() {
                 </Badge>
               </div>
               <p className="text-muted-foreground mb-4">
-                Purchase residential or commercial properties to rent out for steady cash flow and long-term appreciation.
+                Purchase residential or commercial properties to rent out for
+                steady cash flow and long-term appreciation.
               </p>
               <ul className="text-sm space-y-2">
                 <li className="flex items-center">
@@ -403,7 +429,8 @@ export default function Index() {
                 </li>
                 <li className="flex items-center">
                   <div className="w-2 h-2 bg-primary rounded-full mr-2"></div>
-                  Tax advantages like depreciation & mortgage interest deductions
+                  Tax advantages like depreciation & mortgage interest
+                  deductions
                 </li>
               </ul>
             </CardContent>
@@ -414,7 +441,9 @@ export default function Index() {
             <CardContent className="p-6">
               <div className="flex items-center mb-4">
                 <PieChart className="h-8 w-8 text-green-600 mr-3" />
-                <h3 className="text-xl font-bold">Real Estate Investment Trusts (REITs)</h3>
+                <h3 className="text-xl font-bold">
+                  Real Estate Investment Trusts (REITs)
+                </h3>
               </div>
               <div className="mb-4">
                 <Badge className="bg-blue-100 text-blue-800 border-blue-200">
@@ -422,7 +451,8 @@ export default function Index() {
                 </Badge>
               </div>
               <p className="text-muted-foreground mb-4">
-                Invest in companies that own or finance income-producing real estate with stock-like liquidity.
+                Invest in companies that own or finance income-producing real
+                estate with stock-like liquidity.
               </p>
               <ul className="text-sm space-y-2">
                 <li className="flex items-center">
@@ -454,7 +484,8 @@ export default function Index() {
                 </Badge>
               </div>
               <p className="text-muted-foreground mb-4">
-                Buy undervalued properties, renovate, and sell for quick capital gains with higher risk/reward profile.
+                Buy undervalued properties, renovate, and sell for quick capital
+                gains with higher risk/reward profile.
               </p>
               <ul className="text-sm space-y-2">
                 <li className="flex items-center">
@@ -478,7 +509,9 @@ export default function Index() {
             <CardContent className="p-6">
               <div className="flex items-center mb-4">
                 <Waves className="h-8 w-8 text-ocean-600 mr-3" />
-                <h3 className="text-xl font-bold">Short-Term Rentals (Airbnb)</h3>
+                <h3 className="text-xl font-bold">
+                  Short-Term Rentals (Airbnb)
+                </h3>
               </div>
               <div className="mb-4">
                 <Badge className="bg-ocean-100 text-ocean-800 border-ocean-200">
@@ -486,7 +519,8 @@ export default function Index() {
                 </Badge>
               </div>
               <p className="text-muted-foreground mb-4">
-                Rent properties on a short-term basis to travelers, especially profitable in Key West's tourist hotspots.
+                Rent properties on a short-term basis to travelers, especially
+                profitable in Key West's tourist hotspots.
               </p>
               <ul className="text-sm space-y-2">
                 <li className="flex items-center">
@@ -518,7 +552,8 @@ export default function Index() {
                 </Badge>
               </div>
               <p className="text-muted-foreground mb-4">
-                Pool funds with other investors to invest in real estate projects with lower capital requirements.
+                Pool funds with other investors to invest in real estate
+                projects with lower capital requirements.
               </p>
               <ul className="text-sm space-y-2">
                 <li className="flex items-center">
@@ -550,7 +585,8 @@ export default function Index() {
                 </Badge>
               </div>
               <p className="text-muted-foreground mb-4">
-                Invest in designated low-income areas for significant tax incentives and long-term capital gains benefits.
+                Invest in designated low-income areas for significant tax
+                incentives and long-term capital gains benefits.
               </p>
               <ul className="text-sm space-y-2">
                 <li className="flex items-center">
@@ -573,12 +609,14 @@ export default function Index() {
         {/* ROI Calculator Section */}
         <div className="bg-gradient-to-r from-primary to-ocean-600 rounded-3xl p-8 md:p-12 text-center text-white mb-16">
           <h3 className="text-3xl md:text-4xl font-bold mb-4">
-            📊 Calculate Your Investment ROI
+            �� Calculate Your Investment ROI
           </h3>
           <p className="text-xl mb-6 opacity-90 max-w-2xl mx-auto">
-            Understanding ROI is essential to evaluate the profitability of your investments. Use our advanced calculator to analyze potential returns.
+            Understanding ROI is essential to evaluate the profitability of your
+            investments. Use our advanced calculator to analyze potential
+            returns.
           </p>
-          
+
           {/* ROI Formula Display */}
           <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 mb-8 max-w-lg mx-auto">
             <h4 className="text-lg font-semibold mb-4">Basic ROI Formula:</h4>
@@ -590,11 +628,17 @@ export default function Index() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 max-w-4xl mx-auto">
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6">
               <h4 className="text-lg font-semibold mb-2">Cost Method</h4>
-              <p className="text-sm opacity-90">Considers total costs, including purchase price and improvements</p>
+              <p className="text-sm opacity-90">
+                Considers total costs, including purchase price and improvements
+              </p>
             </div>
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6">
-              <h4 className="text-lg font-semibold mb-2">Out-of-Pocket Method</h4>
-              <p className="text-sm opacity-90">Focuses on actual cash invested, excluding financed amounts</p>
+              <h4 className="text-lg font-semibold mb-2">
+                Out-of-Pocket Method
+              </h4>
+              <p className="text-sm opacity-90">
+                Focuses on actual cash invested, excluding financed amounts
+              </p>
             </div>
           </div>
 
@@ -612,29 +656,44 @@ export default function Index() {
 
         {/* Benefits of Real Estate Investment */}
         <div className="mb-16">
-          <h3 className="text-3xl font-bold text-center mb-8">🌟 Benefits of Real Estate Investment</h3>
+          <h3 className="text-3xl font-bold text-center mb-8">
+            🌟 Benefits of Real Estate Investment
+          </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <Card className="bg-white/90 backdrop-blur-sm border-0 shadow-lg">
               <CardContent className="p-6 text-center">
                 <DollarSign className="h-12 w-12 text-green-600 mx-auto mb-4" />
-                <h4 className="text-lg font-semibold mb-2">Consistent Cash Flow</h4>
-                <p className="text-sm text-muted-foreground">Regular rental income provides financial stability and predictable returns.</p>
+                <h4 className="text-lg font-semibold mb-2">
+                  Consistent Cash Flow
+                </h4>
+                <p className="text-sm text-muted-foreground">
+                  Regular rental income provides financial stability and
+                  predictable returns.
+                </p>
               </CardContent>
             </Card>
-            
+
             <Card className="bg-white/90 backdrop-blur-sm border-0 shadow-lg">
               <CardContent className="p-6 text-center">
                 <TrendingUp className="h-12 w-12 text-primary mx-auto mb-4" />
-                <h4 className="text-lg font-semibold mb-2">Property Appreciation</h4>
-                <p className="text-sm text-muted-foreground">Properties often increase in value over time, building long-term wealth.</p>
+                <h4 className="text-lg font-semibold mb-2">
+                  Property Appreciation
+                </h4>
+                <p className="text-sm text-muted-foreground">
+                  Properties often increase in value over time, building
+                  long-term wealth.
+                </p>
               </CardContent>
             </Card>
-            
+
             <Card className="bg-white/90 backdrop-blur-sm border-0 shadow-lg">
               <CardContent className="p-6 text-center">
                 <Building2 className="h-12 w-12 text-orange-600 mx-auto mb-4" />
                 <h4 className="text-lg font-semibold mb-2">Tax Advantages</h4>
-                <p className="text-sm text-muted-foreground">Deductions for depreciation, mortgage interest, and property expenses.</p>
+                <p className="text-sm text-muted-foreground">
+                  Deductions for depreciation, mortgage interest, and property
+                  expenses.
+                </p>
               </CardContent>
             </Card>
           </div>
@@ -648,7 +707,8 @@ export default function Index() {
             Featured Investment Properties
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Handpicked properties with proven rental income and appreciation potential
+            Handpicked properties with proven rental income and appreciation
+            potential
           </p>
         </div>
 
@@ -755,10 +815,14 @@ export default function Index() {
             🧭 Ready to Start Your Real Estate Investment Journey?
           </h2>
           <p className="text-xl text-white/90 mb-6 max-w-2xl mx-auto">
-            Real estate offers diverse investment opportunities, each with its own risk-reward profile. Whether you prefer hands-on management or passive income streams, there's a strategy to match your goals.
+            Real estate offers diverse investment opportunities, each with its
+            own risk-reward profile. Whether you prefer hands-on management or
+            passive income streams, there's a strategy to match your goals.
           </p>
           <p className="text-lg text-white/80 mb-8 max-w-3xl mx-auto">
-            Always conduct thorough due diligence and consider consulting with financial advisors to tailor investments to your personal circumstances.
+            Always conduct thorough due diligence and consider consulting with
+            financial advisors to tailor investments to your personal
+            circumstances.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/investments">
