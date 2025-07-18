@@ -28,5 +28,11 @@ export function createServer() {
   app.get("/api/scrape-properties", scrapeProperties);
   app.get("/api/scrape-images", scrapeImages);
 
+  // Authentication routes
+  app.post("/api/auth/login", handleLogin);
+  app.post("/api/auth/signup", handleSignup);
+  app.get("/api/auth/profile", requireAuth, handleProfile);
+  app.post("/api/auth/logout", handleLogout);
+
   return app;
 }
