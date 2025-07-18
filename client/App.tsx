@@ -22,25 +22,27 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Navigation />
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/property/:id" element={<PropertyDetails />} />
-          <Route path="/complexes" element={<Complexes />} />
-          <Route path="/agents" element={<Agents />} />
-          <Route path="/investments" element={<Investments />} />
-          <Route path="/luxury" element={<Luxury />} />
-          <Route path="/waterfront" element={<Waterfront />} />
-          <Route path="/login" element={<Login />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
+    <AuthProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Navigation />
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/property/:id" element={<PropertyDetails />} />
+            <Route path="/complexes" element={<Complexes />} />
+            <Route path="/agents" element={<Agents />} />
+            <Route path="/investments" element={<Investments />} />
+            <Route path="/luxury" element={<Luxury />} />
+            <Route path="/waterfront" element={<Waterfront />} />
+            <Route path="/login" element={<Login />} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </AuthProvider>
   </QueryClientProvider>
 );
 
