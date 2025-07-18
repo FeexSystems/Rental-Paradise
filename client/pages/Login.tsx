@@ -55,7 +55,7 @@ export default function Login() {
   const { login, signup, isAuthenticated } = useAuth();
 
   // Redirect if already authenticated
-  React.useEffect(() => {
+  useEffect(() => {
     if (isAuthenticated) {
       navigate("/");
     }
