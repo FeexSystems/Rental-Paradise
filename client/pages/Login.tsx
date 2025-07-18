@@ -185,40 +185,26 @@ export default function Login() {
     setIsLoading(true);
 
     try {
-      const response = await fetch("/api/auth/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password,
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          phone: formData.phone || undefined,
-        }),
+      const result = await signup({
+        email: formData.email,
+        password: formData.password,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        phone: formData.phone || undefined,
       });
 
-      const data: AuthResponse = await response.json();
-
-      if (data.success && data.token) {
-        // Store token
-        localStorage.setItem("auth_token", data.token);
-        localStorage.setItem("user", JSON.stringify(data.user));
-
+      if (result.success) {
         toast({
           title: "Account Created!",
           description:
             "Welcome to Key West Rentals. Your account has been created successfully.",
         });
-
-        // Redirect to home page
         navigate("/");
       } else {
         toast({
           title: "Sign Up Failed",
           description:
-            data.message || "Unable to create account. Please try again.",
+            result.message || "Unable to create account. Please try again.",
           variant: "destructive",
         });
       }
