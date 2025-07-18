@@ -132,6 +132,12 @@ export default function Login() {
             </CardHeader>
 
             <CardContent className="space-y-6">
+              {error && (
+                <div className="p-3 text-sm bg-destructive/10 border border-destructive/20 rounded-md text-destructive">
+                  {error}
+                </div>
+              )}
+
               <Tabs defaultValue="login" className="w-full">
                 <TabsList className="grid w-full grid-cols-2">
                   <TabsTrigger value="login">Sign In</TabsTrigger>
