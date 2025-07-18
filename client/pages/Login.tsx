@@ -55,11 +55,11 @@ export default function Login() {
   const { login, signup, isAuthenticated } = useAuth();
 
   // Redirect if already authenticated
-  useState(() => {
+  React.useEffect(() => {
     if (isAuthenticated) {
       navigate("/");
     }
-  });
+  }, [isAuthenticated, navigate]);
 
   const [formData, setFormData] = useState({
     email: "",
