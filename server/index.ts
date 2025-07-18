@@ -3,6 +3,13 @@ import cors from "cors";
 import { handleDemo } from "./routes/demo";
 import { scrapeProperties } from "./routes/scrape-properties";
 import { scrapeImages } from "./routes/scrape-images";
+import {
+  handleLogin,
+  handleSignup,
+  handleProfile,
+  handleLogout,
+  requireAuth,
+} from "./routes/auth";
 
 export function createServer() {
   const app = express();
