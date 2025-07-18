@@ -371,15 +371,37 @@ const Navigation = () => {
                       <Phone className="h-4 w-4 mr-2" />
                       +1 (312) 217-4976
                     </Button>
+
+                    {isAuthenticated ? (
+                      <div className="space-y-3">
+                        <div className="text-center">
+                          <p className="text-sm text-muted-foreground">
+                            Welcome back, {user?.firstName}
+                          </p>
+                        </div>
+                        <Button
+                          variant="outline"
+                          onClick={handleLogout}
+                          className="w-full"
+                        >
+                          Logout
+                        </Button>
+                      </div>
+                    ) : (
+                      <Link to="/login" onClick={() => setIsMobileOpen(false)}>
+                        <Button variant="outline" className="w-full">
+                          <User className="h-4 w-4 mr-2" />
+                          Login / Sign Up
+                        </Button>
+                      </Link>
+                    )}
+
                     <div className="flex space-x-2">
                       <Button variant="outline" size="sm" className="flex-1">
                         <Search className="h-4 w-4" />
                       </Button>
                       <Button variant="outline" size="sm" className="flex-1">
                         <Heart className="h-4 w-4" />
-                      </Button>
-                      <Button variant="outline" size="sm" className="flex-1">
-                        <User className="h-4 w-4" />
                       </Button>
                     </div>
                   </div>
