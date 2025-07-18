@@ -10,6 +10,7 @@ import {
   handleLogout,
   requireAuth,
 } from "./routes/auth";
+import { testAuth } from "./routes/test-auth";
 
 export function createServer() {
   const app = express();
