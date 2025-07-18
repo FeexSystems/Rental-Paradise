@@ -33,6 +33,9 @@ import {
   Search,
   Heart,
   User,
+  LogOut,
+  Settings,
+  UserCircle,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
