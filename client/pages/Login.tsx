@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
+import { useToast } from "@/hooks/use-toast";
 import {
   Mail,
   Lock,
@@ -19,11 +20,38 @@ import {
   Building2,
   Shield,
   CheckCircle,
+  AlertCircle,
 } from "lucide-react";
+
+interface AuthResponse {
+  success: boolean;
+  token?: string;
+  user?: {
+    id: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    phone?: string;
+  };
+  message: string;
+}
+
+interface FormErrors {
+  email?: string;
+  password?: string;
+  firstName?: string;
+  lastName?: string;
+  phone?: string;
+}
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState("login");
+  const [errors, setErrors] = useState<FormErrors>({});
+  const { toast } = useToast();
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -33,32 +61,190 @@ export default function Login() {
     rememberMe: false,
   });
 
+  const validateEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const validatePassword = (password: string): boolean => {
+    // At least 8 characters, 1 uppercase, 1 lowercase, 1 number
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d@$!%*?&]{8,}$/;
+    return passwordRegex.test(password);
+  };
+
+  const validatePhone = (phone: string): boolean => {
+    // Basic phone validation - can be enhanced
+    const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
+    return phone === "" || phoneRegex.test(phone.replace(/[\s\-\(\)]/g, ""));
+  };
+
+  const validateForm = (isSignup: boolean = false): boolean => {
+    const newErrors: FormErrors = {};
+
+    // Email validation
+    if (!formData.email) {
+      newErrors.email = "Email is required";
+    } else if (!validateEmail(formData.email)) {
+      newErrors.email = "Please enter a valid email address";
+    }
+
+    // Password validation
+    if (!formData.password) {
+      newErrors.password = "Password is required";
+    } else if (isSignup && !validatePassword(formData.password)) {
+      newErrors.password =
+        "Password must be at least 8 characters with uppercase, lowercase, and number";
+    } else if (!isSignup && formData.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters";
+    }
+
+    // Signup-specific validations
+    if (isSignup) {
+      if (!formData.firstName.trim()) {
+        newErrors.firstName = "First name is required";
+      }
+      if (!formData.lastName.trim()) {
+        newErrors.lastName = "Last name is required";
+      }
+      if (formData.phone && !validatePhone(formData.phone)) {
+        newErrors.phone = "Please enter a valid phone number";
+      }
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
+    // Clear error for this field when user starts typing
+    if (errors[field as keyof FormErrors]) {
+      setErrors((prev) => ({ ...prev, [field]: undefined }));
+    }
   };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!validateForm(false)) {
+      return;
+    }
+
     setIsLoading(true);
-    // Simulate API call
-    setTimeout(() => {
+
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+          rememberMe: formData.rememberMe,
+        }),
+      });
+
+      const data: AuthResponse = await response.json();
+
+      if (data.success && data.token) {
+        // Store token in localStorage or sessionStorage
+        const storage = formData.rememberMe ? localStorage : sessionStorage;
+        storage.setItem("auth_token", data.token);
+        storage.setItem("user", JSON.stringify(data.user));
+
+        toast({
+          title: "Welcome back!",
+          description: "You have successfully signed in.",
+        });
+
+        // Redirect to home page
+        navigate("/");
+      } else {
+        toast({
+          title: "Sign In Failed",
+          description:
+            data.message || "Invalid email or password. Please try again.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      toast({
+        title: "Connection Error",
+        description: "Unable to connect to server. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
       setIsLoading(false);
-      console.log("Login attempted with:", formData);
-    }, 2000);
+    }
   };
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!validateForm(true)) {
+      return;
+    }
+
     setIsLoading(true);
-    // Simulate API call
-    setTimeout(() => {
+
+    try {
+      const response = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          phone: formData.phone || undefined,
+        }),
+      });
+
+      const data: AuthResponse = await response.json();
+
+      if (data.success && data.token) {
+        // Store token
+        localStorage.setItem("auth_token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+
+        toast({
+          title: "Account Created!",
+          description:
+            "Welcome to Key West Rentals. Your account has been created successfully.",
+        });
+
+        // Redirect to home page
+        navigate("/");
+      } else {
+        toast({
+          title: "Sign Up Failed",
+          description:
+            data.message || "Unable to create account. Please try again.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error("Signup error:", error);
+      toast({
+        title: "Connection Error",
+        description: "Unable to connect to server. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
       setIsLoading(false);
-      console.log("Signup attempted with:", formData);
-    }, 2000);
+    }
   };
 
   const handleSocialLogin = (provider: string) => {
-    console.log(`Login with ${provider}`);
+    toast({
+      title: "Coming Soon",
+      description: `${provider} login will be available soon.`,
+    });
   };
 
   return (
@@ -98,7 +284,11 @@ export default function Login() {
             </CardHeader>
 
             <CardContent className="space-y-6">
-              <Tabs defaultValue="login" className="w-full">
+              <Tabs
+                value={activeTab}
+                onValueChange={setActiveTab}
+                className="w-full"
+              >
                 <TabsList className="grid w-full grid-cols-2">
                   <TabsTrigger value="login">Sign In</TabsTrigger>
                   <TabsTrigger value="signup">Sign Up</TabsTrigger>
@@ -115,7 +305,7 @@ export default function Login() {
                           id="email"
                           type="email"
                           placeholder="Enter your email"
-                          className="pl-10"
+                          className={`pl-10 ${errors.email ? "border-destructive" : ""}`}
                           value={formData.email}
                           onChange={(e) =>
                             handleInputChange("email", e.target.value)
@@ -123,6 +313,12 @@ export default function Login() {
                           required
                         />
                       </div>
+                      {errors.email && (
+                        <div className="flex items-center text-sm text-destructive">
+                          <AlertCircle className="h-3 w-3 mr-1" />
+                          {errors.email}
+                        </div>
+                      )}
                     </div>
 
                     <div className="space-y-2">
@@ -133,7 +329,7 @@ export default function Login() {
                           id="password"
                           type={showPassword ? "text" : "password"}
                           placeholder="Enter your password"
-                          className="pl-10 pr-10"
+                          className={`pl-10 pr-10 ${errors.password ? "border-destructive" : ""}`}
                           value={formData.password}
                           onChange={(e) =>
                             handleInputChange("password", e.target.value)
@@ -152,6 +348,12 @@ export default function Login() {
                           )}
                         </button>
                       </div>
+                      {errors.password && (
+                        <div className="flex items-center text-sm text-destructive">
+                          <AlertCircle className="h-3 w-3 mr-1" />
+                          {errors.password}
+                        </div>
+                      )}
                     </div>
 
                     <div className="flex items-center justify-between">
@@ -200,7 +402,7 @@ export default function Login() {
                           <Input
                             id="firstName"
                             placeholder="First name"
-                            className="pl-10"
+                            className={`pl-10 ${errors.firstName ? "border-destructive" : ""}`}
                             value={formData.firstName}
                             onChange={(e) =>
                               handleInputChange("firstName", e.target.value)
@@ -208,18 +410,33 @@ export default function Login() {
                             required
                           />
                         </div>
+                        {errors.firstName && (
+                          <div className="flex items-center text-xs text-destructive">
+                            <AlertCircle className="h-3 w-3 mr-1" />
+                            {errors.firstName}
+                          </div>
+                        )}
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="lastName">Last Name</Label>
                         <Input
                           id="lastName"
                           placeholder="Last name"
+                          className={
+                            errors.lastName ? "border-destructive" : ""
+                          }
                           value={formData.lastName}
                           onChange={(e) =>
                             handleInputChange("lastName", e.target.value)
                           }
                           required
                         />
+                        {errors.lastName && (
+                          <div className="flex items-center text-xs text-destructive">
+                            <AlertCircle className="h-3 w-3 mr-1" />
+                            {errors.lastName}
+                          </div>
+                        )}
                       </div>
                     </div>
 
@@ -231,7 +448,7 @@ export default function Login() {
                           id="signupEmail"
                           type="email"
                           placeholder="Enter your email"
-                          className="pl-10"
+                          className={`pl-10 ${errors.email ? "border-destructive" : ""}`}
                           value={formData.email}
                           onChange={(e) =>
                             handleInputChange("email", e.target.value)
@@ -239,23 +456,35 @@ export default function Login() {
                           required
                         />
                       </div>
+                      {errors.email && (
+                        <div className="flex items-center text-sm text-destructive">
+                          <AlertCircle className="h-3 w-3 mr-1" />
+                          {errors.email}
+                        </div>
+                      )}
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="phone">Phone Number</Label>
+                      <Label htmlFor="phone">Phone Number (Optional)</Label>
                       <div className="relative">
                         <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                         <Input
                           id="phone"
                           type="tel"
                           placeholder="+1 (312) 217-4976"
-                          className="pl-10"
+                          className={`pl-10 ${errors.phone ? "border-destructive" : ""}`}
                           value={formData.phone}
                           onChange={(e) =>
                             handleInputChange("phone", e.target.value)
                           }
                         />
                       </div>
+                      {errors.phone && (
+                        <div className="flex items-center text-sm text-destructive">
+                          <AlertCircle className="h-3 w-3 mr-1" />
+                          {errors.phone}
+                        </div>
+                      )}
                     </div>
 
                     <div className="space-y-2">
@@ -266,7 +495,7 @@ export default function Login() {
                           id="signupPassword"
                           type={showPassword ? "text" : "password"}
                           placeholder="Create a password"
-                          className="pl-10 pr-10"
+                          className={`pl-10 pr-10 ${errors.password ? "border-destructive" : ""}`}
                           value={formData.password}
                           onChange={(e) =>
                             handleInputChange("password", e.target.value)
@@ -284,6 +513,16 @@ export default function Login() {
                             <Eye className="h-4 w-4" />
                           )}
                         </button>
+                      </div>
+                      {errors.password && (
+                        <div className="flex items-center text-sm text-destructive">
+                          <AlertCircle className="h-3 w-3 mr-1" />
+                          {errors.password}
+                        </div>
+                      )}
+                      <div className="text-xs text-muted-foreground">
+                        Password must contain at least 8 characters, including
+                        uppercase, lowercase, and a number.
                       </div>
                     </div>
 
@@ -332,7 +571,7 @@ export default function Login() {
                 <div className="grid grid-cols-3 gap-3">
                   <Button
                     variant="outline"
-                    onClick={() => handleSocialLogin("google")}
+                    onClick={() => handleSocialLogin("Google")}
                     className="w-full"
                   >
                     <svg className="h-4 w-4" viewBox="0 0 24 24">
@@ -356,7 +595,7 @@ export default function Login() {
                   </Button>
                   <Button
                     variant="outline"
-                    onClick={() => handleSocialLogin("facebook")}
+                    onClick={() => handleSocialLogin("Facebook")}
                     className="w-full"
                   >
                     <svg
@@ -369,7 +608,7 @@ export default function Login() {
                   </Button>
                   <Button
                     variant="outline"
-                    onClick={() => handleSocialLogin("apple")}
+                    onClick={() => handleSocialLogin("Apple")}
                     className="w-full"
                   >
                     <svg
