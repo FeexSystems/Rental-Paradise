@@ -222,9 +222,9 @@ export default function Login() {
                       type="submit"
                       className="w-full"
                       size="lg"
-                      disabled={isLoading}
+                      disabled={isLoading || authLoading}
                     >
-                      {isLoading ? "Signing in..." : "Sign In"}
+                      {isLoading || authLoading ? "Signing in..." : "Sign In"}
                     </Button>
                   </form>
                 </TabsContent>
@@ -331,9 +331,11 @@ export default function Login() {
                       type="submit"
                       className="w-full"
                       size="lg"
-                      disabled={isLoading}
+                      disabled={isLoading || authLoading}
                     >
-                      {isLoading ? "Creating account..." : "Create Account"}
+                      {isLoading || authLoading
+                        ? "Creating account..."
+                        : "Create Account"}
                     </Button>
 
                     <div className="text-xs text-muted-foreground text-center">
