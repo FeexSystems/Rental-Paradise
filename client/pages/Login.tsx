@@ -143,38 +143,23 @@ export default function Login() {
     setIsLoading(true);
 
     try {
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password,
-          rememberMe: formData.rememberMe,
-        }),
-      });
+      const result = await login(
+        formData.email,
+        formData.password,
+        formData.rememberMe,
+      );
 
-      const data: AuthResponse = await response.json();
-
-      if (data.success && data.token) {
-        // Store token in localStorage or sessionStorage
-        const storage = formData.rememberMe ? localStorage : sessionStorage;
-        storage.setItem("auth_token", data.token);
-        storage.setItem("user", JSON.stringify(data.user));
-
+      if (result.success) {
         toast({
           title: "Welcome back!",
           description: "You have successfully signed in.",
         });
-
-        // Redirect to home page
         navigate("/");
       } else {
         toast({
           title: "Sign In Failed",
           description:
-            data.message || "Invalid email or password. Please try again.",
+            result.message || "Invalid email or password. Please try again.",
           variant: "destructive",
         });
       }
