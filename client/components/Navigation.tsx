@@ -400,6 +400,50 @@ const Navigation = () => {
 
                 <div className="mt-8 pt-8 border-t">
                   <div className="space-y-4">
+                    {/* Authentication for Mobile */}
+                    {isAuthenticated ? (
+                      <div className="space-y-4">
+                        <div className="flex items-center space-x-3 p-3 bg-accent rounded-lg">
+                          <Avatar className="h-10 w-10">
+                            <AvatarImage
+                              src=""
+                              alt={user?.firstName || "User"}
+                            />
+                            <AvatarFallback>
+                              {user?.firstName?.[0]?.toUpperCase() || "U"}
+                              {user?.lastName?.[0]?.toUpperCase() || ""}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div className="flex-1">
+                            <p className="text-sm font-medium">
+                              {user?.firstName} {user?.lastName}
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              {user?.email}
+                            </p>
+                          </div>
+                        </div>
+                        <Button
+                          variant="outline"
+                          className="w-full"
+                          onClick={() => {
+                            logout();
+                            setIsMobileOpen(false);
+                          }}
+                        >
+                          <LogOut className="h-4 w-4 mr-2" />
+                          Sign Out
+                        </Button>
+                      </div>
+                    ) : (
+                      <Link to="/login" onClick={() => setIsMobileOpen(false)}>
+                        <Button className="w-full" variant="outline">
+                          <User className="h-4 w-4 mr-2" />
+                          Sign In
+                        </Button>
+                      </Link>
+                    )}
+
                     <Button className="w-full">
                       <Phone className="h-4 w-4 mr-2" />
                       +1 (312) 217-4976
@@ -410,9 +454,6 @@ const Navigation = () => {
                       </Button>
                       <Button variant="outline" size="sm" className="flex-1">
                         <Heart className="h-4 w-4" />
-                      </Button>
-                      <Button variant="outline" size="sm" className="flex-1">
-                        <User className="h-4 w-4" />
                       </Button>
                     </div>
                   </div>
