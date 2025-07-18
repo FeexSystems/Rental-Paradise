@@ -23,8 +23,11 @@ import {
 } from "lucide-react";
 
 export default function Login() {
+  const navigate = useNavigate();
+  const { login, signup, isLoading: authLoading } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     email: "",
     password: "",
