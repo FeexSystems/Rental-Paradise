@@ -3,6 +3,12 @@ import cors from "cors";
 import { handleDemo } from "./routes/demo";
 import { scrapeProperties } from "./routes/scrape-properties";
 import { scrapeImages } from "./routes/scrape-images";
+import {
+  handleLogin,
+  handleSignup,
+  handleGetUser,
+  handleLogout,
+} from "./routes/auth";
 
 export function createServer() {
   const app = express();
@@ -20,6 +26,12 @@ export function createServer() {
   app.get("/api/demo", handleDemo);
   app.get("/api/scrape-properties", scrapeProperties);
   app.get("/api/scrape-images", scrapeImages);
+
+  // Authentication routes
+  app.post("/api/auth/login", handleLogin);
+  app.post("/api/auth/signup", handleSignup);
+  app.get("/api/auth/user", handleGetUser);
+  app.post("/api/auth/logout", handleLogout);
 
   return app;
 }

@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -22,8 +23,11 @@ import {
 } from "lucide-react";
 
 export default function Login() {
+  const navigate = useNavigate();
+  const { login, signup, isLoading: authLoading } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -40,21 +44,51 @@ export default function Login() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    // Simulate API call
-    setTimeout(() => {
+    setError("");
+
+    try {
+      const result = await login({
+        email: formData.email,
+        password: formData.password,
+        rememberMe: formData.rememberMe,
+      });
+
+      if (result.success) {
+        navigate("/");
+      } else {
+        setError(result.message || result.error || "Login failed");
+      }
+    } catch (err) {
+      setError("An unexpected error occurred");
+    } finally {
       setIsLoading(false);
-      console.log("Login attempted with:", formData);
-    }, 2000);
+    }
   };
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    // Simulate API call
-    setTimeout(() => {
+    setError("");
+
+    try {
+      const result = await signup({
+        email: formData.email,
+        password: formData.password,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        phone: formData.phone,
+      });
+
+      if (result.success) {
+        navigate("/");
+      } else {
+        setError(result.message || result.error || "Signup failed");
+      }
+    } catch (err) {
+      setError("An unexpected error occurred");
+    } finally {
       setIsLoading(false);
-      console.log("Signup attempted with:", formData);
-    }, 2000);
+    }
   };
 
   const handleSocialLogin = (provider: string) => {
@@ -98,6 +132,12 @@ export default function Login() {
             </CardHeader>
 
             <CardContent className="space-y-6">
+              {error && (
+                <div className="p-3 text-sm bg-destructive/10 border border-destructive/20 rounded-md text-destructive">
+                  {error}
+                </div>
+              )}
+
               <Tabs defaultValue="login" className="w-full">
                 <TabsList className="grid w-full grid-cols-2">
                   <TabsTrigger value="login">Sign In</TabsTrigger>
@@ -182,9 +222,9 @@ export default function Login() {
                       type="submit"
                       className="w-full"
                       size="lg"
-                      disabled={isLoading}
+                      disabled={isLoading || authLoading}
                     >
-                      {isLoading ? "Signing in..." : "Sign In"}
+                      {isLoading || authLoading ? "Signing in..." : "Sign In"}
                     </Button>
                   </form>
                 </TabsContent>
@@ -291,9 +331,11 @@ export default function Login() {
                       type="submit"
                       className="w-full"
                       size="lg"
-                      disabled={isLoading}
+                      disabled={isLoading || authLoading}
                     >
-                      {isLoading ? "Creating account..." : "Create Account"}
+                      {isLoading || authLoading
+                        ? "Creating account..."
+                        : "Create Account"}
                     </Button>
 
                     <div className="text-xs text-muted-foreground text-center">

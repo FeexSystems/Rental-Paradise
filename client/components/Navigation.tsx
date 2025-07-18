@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
@@ -30,6 +31,12 @@ const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const location = useLocation();
+  const { user, isAuthenticated, logout } = useAuth();
+
+  const handleLogout = async () => {
+    await logout();
+    setIsMobileOpen(false);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -295,13 +302,33 @@ const Navigation = () => {
               >
                 <Heart className="h-4 w-4" />
               </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="text-muted-foreground hover:text-foreground"
-              >
-                <User className="h-4 w-4" />
-              </Button>
+
+              {isAuthenticated ? (
+                <div className="flex items-center space-x-2">
+                  <span className="text-sm text-muted-foreground">
+                    Hello, {user?.firstName}
+                  </span>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleLogout}
+                    className="text-muted-foreground hover:text-foreground"
+                  >
+                    Logout
+                  </Button>
+                </div>
+              ) : (
+                <Link to="/login">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-muted-foreground hover:text-foreground"
+                  >
+                    <User className="h-4 w-4 mr-1" />
+                    Login
+                  </Button>
+                </Link>
+              )}
             </div>
 
             <Button className="hidden sm:flex bg-primary hover:bg-primary/90">
@@ -344,15 +371,37 @@ const Navigation = () => {
                       <Phone className="h-4 w-4 mr-2" />
                       +1 (312) 217-4976
                     </Button>
+
+                    {isAuthenticated ? (
+                      <div className="space-y-3">
+                        <div className="text-center">
+                          <p className="text-sm text-muted-foreground">
+                            Welcome back, {user?.firstName}
+                          </p>
+                        </div>
+                        <Button
+                          variant="outline"
+                          onClick={handleLogout}
+                          className="w-full"
+                        >
+                          Logout
+                        </Button>
+                      </div>
+                    ) : (
+                      <Link to="/login" onClick={() => setIsMobileOpen(false)}>
+                        <Button variant="outline" className="w-full">
+                          <User className="h-4 w-4 mr-2" />
+                          Login / Sign Up
+                        </Button>
+                      </Link>
+                    )}
+
                     <div className="flex space-x-2">
                       <Button variant="outline" size="sm" className="flex-1">
                         <Search className="h-4 w-4" />
                       </Button>
                       <Button variant="outline" size="sm" className="flex-1">
                         <Heart className="h-4 w-4" />
-                      </Button>
-                      <Button variant="outline" size="sm" className="flex-1">
-                        <User className="h-4 w-4" />
                       </Button>
                     </div>
                   </div>
