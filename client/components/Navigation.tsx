@@ -302,13 +302,33 @@ const Navigation = () => {
               >
                 <Heart className="h-4 w-4" />
               </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="text-muted-foreground hover:text-foreground"
-              >
-                <User className="h-4 w-4" />
-              </Button>
+
+              {isAuthenticated ? (
+                <div className="flex items-center space-x-2">
+                  <span className="text-sm text-muted-foreground">
+                    Hello, {user?.firstName}
+                  </span>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleLogout}
+                    className="text-muted-foreground hover:text-foreground"
+                  >
+                    Logout
+                  </Button>
+                </div>
+              ) : (
+                <Link to="/login">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-muted-foreground hover:text-foreground"
+                  >
+                    <User className="h-4 w-4 mr-1" />
+                    Login
+                  </Button>
+                </Link>
+              )}
             </div>
 
             <Button className="hidden sm:flex bg-primary hover:bg-primary/90">
