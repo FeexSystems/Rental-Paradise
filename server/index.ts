@@ -30,6 +30,7 @@ export function createServer() {
   app.get("/api/scrape-images", scrapeImages);
 
   // Authentication routes
+  app.get("/api/auth/test", testAuth);
   app.post("/api/auth/login", handleLogin);
   app.post("/api/auth/signup", handleSignup);
   app.get("/api/auth/profile", requireAuth, handleProfile);
