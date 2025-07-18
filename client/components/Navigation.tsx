@@ -2,6 +2,16 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useAuth } from "@/hooks/use-auth";
+import {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
@@ -23,6 +33,9 @@ import {
   Search,
   Heart,
   User,
+  LogOut,
+  Settings,
+  UserCircle,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -30,6 +43,7 @@ const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const location = useLocation();
+  const { user, isAuthenticated, logout } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -295,14 +309,60 @@ const Navigation = () => {
               >
                 <Heart className="h-4 w-4" />
               </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="text-muted-foreground hover:text-foreground"
-              >
-                <User className="h-4 w-4" />
-              </Button>
             </div>
+
+            {/* Authentication Section */}
+            {isAuthenticated ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="relative h-8 w-8 rounded-full"
+                  >
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage src="" alt={user?.firstName || "User"} />
+                      <AvatarFallback>
+                        {user?.firstName?.[0]?.toUpperCase() || "U"}
+                        {user?.lastName?.[0]?.toUpperCase() || ""}
+                      </AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56" align="end" forceMount>
+                  <DropdownMenuLabel className="font-normal">
+                    <div className="flex flex-col space-y-1">
+                      <p className="text-sm font-medium leading-none">
+                        {user?.firstName} {user?.lastName}
+                      </p>
+                      <p className="text-xs leading-none text-muted-foreground">
+                        {user?.email}
+                      </p>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>
+                    <UserCircle className="mr-2 h-4 w-4" />
+                    <span>Profile</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Settings className="mr-2 h-4 w-4" />
+                    <span>Settings</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={logout}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Log out</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Link to="/login">
+                <Button variant="outline" size="sm">
+                  <User className="h-4 w-4 mr-2" />
+                  Sign In
+                </Button>
+              </Link>
+            )}
 
             <Button className="hidden sm:flex bg-primary hover:bg-primary/90">
               <Phone className="h-4 w-4 mr-2" />
@@ -340,6 +400,50 @@ const Navigation = () => {
 
                 <div className="mt-8 pt-8 border-t">
                   <div className="space-y-4">
+                    {/* Authentication for Mobile */}
+                    {isAuthenticated ? (
+                      <div className="space-y-4">
+                        <div className="flex items-center space-x-3 p-3 bg-accent rounded-lg">
+                          <Avatar className="h-10 w-10">
+                            <AvatarImage
+                              src=""
+                              alt={user?.firstName || "User"}
+                            />
+                            <AvatarFallback>
+                              {user?.firstName?.[0]?.toUpperCase() || "U"}
+                              {user?.lastName?.[0]?.toUpperCase() || ""}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div className="flex-1">
+                            <p className="text-sm font-medium">
+                              {user?.firstName} {user?.lastName}
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              {user?.email}
+                            </p>
+                          </div>
+                        </div>
+                        <Button
+                          variant="outline"
+                          className="w-full"
+                          onClick={() => {
+                            logout();
+                            setIsMobileOpen(false);
+                          }}
+                        >
+                          <LogOut className="h-4 w-4 mr-2" />
+                          Sign Out
+                        </Button>
+                      </div>
+                    ) : (
+                      <Link to="/login" onClick={() => setIsMobileOpen(false)}>
+                        <Button className="w-full" variant="outline">
+                          <User className="h-4 w-4 mr-2" />
+                          Sign In
+                        </Button>
+                      </Link>
+                    )}
+
                     <Button className="w-full">
                       <Phone className="h-4 w-4 mr-2" />
                       +1 (312) 217-4976
@@ -350,9 +454,6 @@ const Navigation = () => {
                       </Button>
                       <Button variant="outline" size="sm" className="flex-1">
                         <Heart className="h-4 w-4" />
-                      </Button>
-                      <Button variant="outline" size="sm" className="flex-1">
-                        <User className="h-4 w-4" />
                       </Button>
                     </div>
                   </div>

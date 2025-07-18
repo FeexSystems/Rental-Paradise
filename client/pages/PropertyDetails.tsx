@@ -503,13 +503,22 @@ export default function PropertyDetails() {
                 <CardTitle>Where you'll be</CardTitle>
               </CardHeader>
               <CardContent>
-                        <Input
-                          type="date"
-                          id="checkin"
-                          value={checkIn ? checkIn.toISOString().split('T')[0] : ''}
-                          onChange={(e) => setCheckIn(e.target.value ? new Date(e.target.value) : undefined)}
-                          className="w-full"
-                        />
+                <div className="mb-4">
+                  <p className="text-muted-foreground mb-2">
+                    {property.address}
+                  </p>
+                  <div className="h-64 bg-muted rounded-lg flex items-center justify-center">
+                    <p className="text-muted-foreground">
+                      Interactive map would be here
+                    </p>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <h4 className="font-medium">Nearby attractions</h4>
+                  {property.nearbyAttractions.map((attraction, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center justify-between"
                     >
                       <div>
                         <span className="font-medium">{attraction.name}</span>
@@ -568,29 +577,39 @@ export default function PropertyDetails() {
                   <div className="grid grid-cols-2 gap-2">
                     <div>
                       <Label htmlFor="checkin">Check-in</Label>
-                      <Button
-                        variant="outline"
-                        className="w-full justify-start text-left font-normal"
-                        onClick={() => {
-                          /* Open calendar */
-                        }}
-                      >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
-                        {checkIn ? checkIn.toLocaleDateString() : "Add date"}
-                      </Button>
+                      <Input
+                        type="date"
+                        id="checkin"
+                        value={
+                          checkIn ? checkIn.toISOString().split("T")[0] : ""
+                        }
+                        onChange={(e) =>
+                          setCheckIn(
+                            e.target.value
+                              ? new Date(e.target.value)
+                              : undefined,
+                          )
+                        }
+                        className="w-full"
+                      />
                     </div>
                     <div>
                       <Label htmlFor="checkout">Check-out</Label>
-                      <Button
-                        variant="outline"
-                        className="w-full justify-start text-left font-normal"
-                        onClick={() => {
-                          /* Open calendar */
-                        }}
-                      >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
-                        {checkOut ? checkOut.toLocaleDateString() : "Add date"}
-                      </Button>
+                      <Input
+                        type="date"
+                        id="checkout"
+                        value={
+                          checkOut ? checkOut.toISOString().split("T")[0] : ""
+                        }
+                        onChange={(e) =>
+                          setCheckOut(
+                            e.target.value
+                              ? new Date(e.target.value)
+                              : undefined,
+                          )
+                        }
+                        className="w-full"
+                      />
                     </div>
                   </div>
 
