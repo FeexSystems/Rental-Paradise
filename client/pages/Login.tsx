@@ -52,6 +52,14 @@ export default function Login() {
   const [errors, setErrors] = useState<FormErrors>({});
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { login, signup, isAuthenticated } = useAuth();
+
+  // Redirect if already authenticated
+  useState(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
+  });
 
   const [formData, setFormData] = useState({
     email: "",
