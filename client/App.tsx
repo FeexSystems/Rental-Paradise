@@ -35,7 +35,9 @@ const App = () => (
             <Route path="/property/:id" element={<PropertyDetails />} />
             <Route path="/complexes" element={<Complexes />} />
             <Route path="/agents" element={<Agents />} />
+            <Route path="/agents/join" element={<JoinAgents />} />
             <Route path="/investments" element={<Investments />} />
+            <Route path="/investments/calculator" element={<ROICalculator />} />
             <Route path="/luxury" element={<Luxury />} />
             <Route path="/waterfront" element={<Waterfront />} />
             <Route path="/login" element={<Login />} />
